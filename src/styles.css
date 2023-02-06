@@ -85,6 +85,9 @@ form button {
   float: left;
   margin-right: 0;
 }
+.note:hover{
+  
+}
 
 .note h1 {
   border-bottom: 1px solid gray;

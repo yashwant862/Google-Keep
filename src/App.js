@@ -17,16 +17,33 @@ import Help from './Pages/Help';
 
 function App(props) {
   const [notes, setNotes] = useState([]);
+  const [editId, setEditId] = useState(0);
 
   function addNote(newNote) {
     setNotes((prevValue) => {
       return [...prevValue, newNote];
     });
+    if (editId) {
+      const editTask = notes.find((i) => i.id === editId);
+      const updatedTasks = notes.map((t) =>
+        t.id === editTask.id
+          ? (t = { id: t.id, notes })
+          : { id: t.id, notes: t.notes }
+      );
+      setNotes(updatedTasks);
+      setEditId(0);
+      return;
+    }
   }
   function deleteNotes(id) {
     setNotes((preValue) => {
       return [...preValue.filter((note, index) => index !== id)];
     });
+  }
+  function editNotes(id) {
+    const editTask = notes.find((i) => i.id === id);
+    setEditId(editTask.notes);
+    setEditId(id);
   }
   return (
     <div className="App">
@@ -57,6 +74,7 @@ function App(props) {
           title={note.title}
           content={note.content}
           onDelete={deleteNotes}
+          onEdit={editNotes}
         />
       ))}
     </div>
